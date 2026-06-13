@@ -6,24 +6,6 @@ class SpendingHomeScreen extends StatelessWidget {
 
   final TransactionRepository repository = const TransactionRepository();
 
-  final List<Map<String, String>> transactions = const [
-    {
-      'merchant': 'Checkers',
-      'amount': '-R450',
-      'category': 'Groceries'
-    },
-    {
-      'merchant': 'Uber',
-      'amount': '-R120',
-      'category': 'Transport'
-    },
-    {
-      'merchant': 'Netflix',
-      'amount': '-R199',
-      'category': 'Subscriptions'
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     final transactions = repository.getTransactions();
