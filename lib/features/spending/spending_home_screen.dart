@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import '../data/transaction_repository.dart';
 
 class SpendingHomeScreen extends StatelessWidget {
   const SpendingHomeScreen({super.key});
+
+  final TransactionRepository repository = const TransactionRepository();
 
   final List<Map<String, String>> transactions = const [
     {
@@ -23,6 +26,7 @@ class SpendingHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final transactions = repository.getTransactions();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -69,9 +73,9 @@ class SpendingHomeScreen extends StatelessWidget {
 
             return Card(
               child: ListTile(
-                title: Text(transaction['merchant']!),
-                subtitle: Text(transaction['category']!),
-                trailing: Text(transaction['amount']!),
+               title: Text(transaction.merchant),
+               subtitle: Text(transaction.category),
+               trailing: Text(transaction.amount),
               ),
             );
           },

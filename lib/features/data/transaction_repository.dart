@@ -1,6 +1,8 @@
 import '../models/transaction_item.dart';
 
 class TransactionRepository {
+  const TransactionRepository();
+
   List<TransactionItem> getTransactions() {
     return const [
       TransactionItem(
