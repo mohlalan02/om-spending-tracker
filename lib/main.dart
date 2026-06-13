@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'app/router.dart';
 import 'features/auth/login_screen.dart';
 
 void main() {
@@ -10,10 +11,10 @@ class OmSpendingTrackerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'OM Spending Tracker',
       debugShowCheckedModeBanner: false,
-      home: const LoginScreen(),
+      routerConfig: router,
     );
   }
 }

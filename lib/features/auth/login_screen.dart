@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../spending/spending_home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -45,12 +46,7 @@ class LoginScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const SpendingHomeScreen(),
-                      ),
-                    );
+                  context.go('/spending');
                   },
                   child: const Text('Login'),
                 ),

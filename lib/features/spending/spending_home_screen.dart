@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../data/transaction_repository.dart';
 
 class SpendingHomeScreen extends StatelessWidget {
@@ -14,7 +15,7 @@ class SpendingHomeScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            context.go('/login');
           },
         ),
         title: const Text('Spending Tracker'),
