@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../auth/data/auth_repository.dart';
 import '../data/transaction_repository.dart';
 
 class SpendingHomeScreen extends StatelessWidget {
   const SpendingHomeScreen({super.key});
 
+  final AuthRepository authRepository = const AuthRepository();
   final TransactionRepository repository = const TransactionRepository();
 
   @override
@@ -12,12 +14,18 @@ class SpendingHomeScreen extends StatelessWidget {
     final transactions = repository.getTransactions();
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            context.go('/login');
-          },
-        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await authRepository.logout();
+
+              if (context.mounted) {
+                context.go('/login');
+              }
+            },
+          ),
+        ],
         title: const Text('Spending Tracker'),
       ),
       body: Padding(

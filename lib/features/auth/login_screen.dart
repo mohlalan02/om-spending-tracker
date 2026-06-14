@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'data/auth_repository.dart';
 import 'package:go_router/go_router.dart';
 import '../spending/spending_home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
+
+  final AuthRepository authRepository = const AuthRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +48,12 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                  context.go('/spending');
+                 onPressed: () async {
+                    await authRepository.login();
+
+                    if (context.mounted) {
+                      context.go('/spending');
+                    }
                   },
                   child: const Text('Login'),
                 ),
