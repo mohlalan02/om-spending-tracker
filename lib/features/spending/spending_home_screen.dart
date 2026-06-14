@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import '../auth/data/auth_repository.dart';
-import '../data/transaction_repository.dart';
+import '../models/transaction_item.dart';
+import 'data/transaction_repository.dart';
 
 class SpendingHomeScreen extends StatelessWidget {
   const SpendingHomeScreen({super.key});
@@ -11,9 +13,9 @@ class SpendingHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final transactions = repository.getTransactions();
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Spending Tracker'),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
@@ -26,17 +28,16 @@ class SpendingHomeScreen extends StatelessWidget {
             },
           ),
         ],
-        title: const Text('Spending Tracker'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Card(
+            const Card(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 child: Column(
-                  children: const [
+                  children: [
                     Text(
                       'Available Balance',
                       style: TextStyle(fontSize: 16),
@@ -52,29 +53,46 @@ class SpendingHomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-      ),
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: FutureBuilder<List<TransactionItem>>(
+                future: repository.getTransactions(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-      const SizedBox(height: 16),
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
 
-      Expanded(
-        child: ListView.builder(
-          itemCount: transactions.length,
-          itemBuilder: (context, index) {
-            final transaction = transactions[index];
+                  final transactions = snapshot.data ?? [];
 
-            return Card(
-              child: ListTile(
-               title: Text(transaction.merchant),
-               subtitle: Text(transaction.category),
-               trailing: Text(transaction.amount),
+                  return ListView.builder(
+                    itemCount: transactions.length,
+                    itemBuilder: (context, index) {
+                      final transaction = transactions[index];
+
+                      return Card(
+                        child: ListTile(
+                          title: Text(transaction.merchant),
+                          subtitle: Text(transaction.category),
+                          trailing: Text(transaction.amount),
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
-            );
-          },
+            ),
+          ],
         ),
       ),
-    ],
-  ),
-),
     );
   }
 }
